@@ -25,10 +25,12 @@ class ProductController extends Controller
         ->select('product_files.*', 'products.*')
         ->get();
 
-    return response()->json([
-      'data' => $Products ? $Products : null,
-      'message' =>  $Products?'Successfully Received' : 'Error',
-    ], 200);
+
+        return $Products;
+    // return response()->json([
+    //   'data' => $Products ? $Products : null,
+    //   'message' =>  $Products?'Successfully Received' : 'Error',
+    // ], 200);
   }
 
     /**
@@ -47,8 +49,9 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-     public function StoreProduct(Request $request)
+     public function Store_Product(Request $request)
   {
+    
     set_time_limit(1000);
     $id = IdGenerator::generate(['table' => 'products', 'length' => 10, 'prefix' =>date('ym')]);
     $Product = new Product();
@@ -62,14 +65,25 @@ class ProductController extends Controller
 
     $Product_File->product_id =  $id;
     
-        if($request->product_file)
+        if($request->file('product_file'))
         {
                 $products_file = $request->file('product_file');
-                $product_files_name = time() . $id . '.' . $products_file->getClientOriginalExtension();
+                $product_files_name = time() . $id . $products_file->getClientOriginalName();
                 $product_files_path = public_path('/Product_File/');
                 $products_file->move($product_files_path,$product_files_name);
                 $Product_File->product_file ='/Product_File/' . $product_files_name;
         }
+
+         // if($request->file()) {
+         //        $file_name = time().'_'.$request->file->getClientOriginalName();
+         //        $file_path = $request->file('file')->storeAs('uploads', $file_name, 'public');
+    
+         //        $fileUpload->name = time().'_'.$request->file->getClientOriginalName();
+         //        $fileUpload->path = '/storage/' . $file_path;
+         //        $fileUpload->save();
+    
+         //        return response()->json(['success'=>'File uploaded successfully.']);
+         //    }
 
     $Product_File->save();
 
@@ -104,7 +118,7 @@ class ProductController extends Controller
     ], 200);
   }
 
-  public function UpdateProduct(Request $request, $id)
+  public function Update_Product(Request $request, $id)
   {
     set_time_limit(1000);
     
@@ -181,7 +195,7 @@ $Product_File = ProductFile::where('product_id', $id)
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function DeleteProduct($id)
+    public function Delete_Product($id)
   {
     $delete = Product::find($id)->delete();
 
