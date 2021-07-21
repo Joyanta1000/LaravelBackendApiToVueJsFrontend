@@ -28,6 +28,7 @@ import Product from "./Product.vue";
 
 export default {
   name: "Product_List",
+  
   components: {
     Product
   },

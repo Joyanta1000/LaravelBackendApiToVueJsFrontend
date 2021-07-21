@@ -8,8 +8,10 @@ use App\Models\User;
 use \Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Exception;
+use Session;
 
 class UserController extends Controller
 {
@@ -89,7 +91,19 @@ else{
      */
     public function Login(Request $request)
     {
-        
+        $loginData = $request->validate([
+            
+            'email' => 'email|required',
+            'password' => 'required'
+        ]);
+
+        if(!Auth()->attempt($loginData))
+        {
+            return response(['message'=>'Invalid credentials']);
+        }
+
+        $accessToken = Auth()->user()->createToken('authToken')->accessToken;
+        return response(['user'=> Auth()->user(), 'accessToken'=> $accessToken, 'isLoggedIn' => 1]);
     }
 
     /**
@@ -121,8 +135,18 @@ else{
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
-    }
+    public function Logout(Request $request)
+{
+    // $user = Auth::guard('api')->user();
+
+    // if ($user) {
+    //     $user->api_token = null;
+    //     $user->save();
+    // }
+    Auth::logout();
+     // log the user out of our application
+     Session::flush();
+
+    return response()->json(['data' => 'User logged out.'], 200);
+}
 }

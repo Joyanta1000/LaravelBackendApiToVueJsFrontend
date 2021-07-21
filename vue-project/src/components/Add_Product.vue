@@ -1,5 +1,5 @@
 <template>
-  <div class="add_product">
+  <div class="add_product" >
     <form method="" action="" enctype="multipart/form-data">
     <div class="form-group">
       <label for="name">Name:</label>
@@ -21,6 +21,7 @@
 <script>
 export default {
   name: "Add_Product",
+ 
   props: {
     form: {
       type: Object
@@ -42,15 +43,11 @@ export default {
       this.form.name = document.getElementsByName("name")[0].value;
       this.form.details = document.getElementsByName("details")[0].value;
       
-      console.log(this.form.name);
-      console.log(this.form.details);
-      console.log(this.form.product_file);
       const data_to = new FormData();
       data_to.append('name', this.form.name);
       data_to.append('details', this.form.details);
       data_to.append('product_file', this.form.product_file);
       
-      console.log(data_to);
       this.$emit("onFormSubmit", data_to);
       }
 

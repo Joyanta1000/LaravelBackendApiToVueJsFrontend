@@ -6,7 +6,7 @@
   <div class="row">
     <div class="col-md-4" v-for="product in products" :key="product.id" :product= "product">
       <div class="thumbnail">
-        <a href="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg" target="_blank">
+        <a :href="'http://127.0.0.1:8000' + product.product_file" target="_blank">
           <img :src="'http://127.0.0.1:8000' + product.product_file" alt="Lights" style="width:100%">
           <div class="caption">
             <h3>{{ product.name }}</h3>
@@ -37,13 +37,21 @@
     </div> -->
   </div>
 </div>
+
+
 </div>
+
+
+
+
+
 </template>
 
 <script>
   
   export default {
   name: "Home",
+  
   props: {
     product: {
         type: Object
@@ -76,3 +84,4 @@ export default {
   }
 };
 </script>
+
