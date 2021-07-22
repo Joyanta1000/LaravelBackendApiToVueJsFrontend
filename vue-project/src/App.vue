@@ -124,6 +124,7 @@ export default {
       Authorization : 'Bearer ' + localStorage.getItem('accessToken')
     }
     }).then(() => {
+      alert("Product added");
       this.getProducts();
     }).catch(e => {
     alert(e);
