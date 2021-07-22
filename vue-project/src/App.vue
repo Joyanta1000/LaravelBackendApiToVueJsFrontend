@@ -136,7 +136,6 @@ export default {
     });
   },
   onDelete(id) {
-    alert("Are you sure?");
     this.deleteProduct(id);
   },
   onFormSubmit(data) {
