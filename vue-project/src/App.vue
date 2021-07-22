@@ -30,10 +30,9 @@
   <div v-if=isLoggedIn>
   <Add_Product :form = "form" @onFormSubmit="onFormSubmit"/>
   <br>
-  <div>
-    
-    <Product_List :products= "products" @onDelete="onDelete"/>
-  </div>
+  
+    <Product_List :products= "products" @onDelete="onDelete" />
+  
   </div>
   <br>
   <hr>
@@ -51,13 +50,9 @@ import VueSession from 'vue-session';
 import Vue from 'vue'
 Vue.use(VueSession);
 import Add_Product from "./components/Add_Product";
-
 import Product_List from "./components/Product_List";
-
 import Home from "./components/Home";
 import Login from './components/Login';
-
-
 
 export default {
   name: 'App',
@@ -81,7 +76,6 @@ export default {
   },
   methods: {
      authenticate(data){
-       
        
      axios.post('http://localhost:8000/api/Login', data).then((response) => {
           
@@ -118,18 +112,16 @@ export default {
   
   },
   createProduct(data){
-  
     axios.post('http://127.0.0.1:8000/api/Store_Product', data, {
       headers: {
       Authorization : 'Bearer ' + localStorage.getItem('accessToken')
     }
     }).then(() => {
-      alert("Product added");
       this.getProducts();
+      alert("Product added");
     }).catch(e => {
     alert(e);
     });
-    this.getProducts();
   },
   deleteProduct(id) {
     axios.delete("http://127.0.0.1:8000/api/Delete_Product/" + id, {
@@ -137,6 +129,7 @@ export default {
       Authorization : 'Bearer ' + localStorage.getItem('accessToken')
     }
     }).then(() => {
+      alert("Product deleted");
       this.getProducts();
     }).catch(e => {
     alert(e);
@@ -147,12 +140,9 @@ export default {
     this.deleteProduct(id);
   },
   onFormSubmit(data) {
-    if(data.isEdit){
-//for Edit
-    }
-    else{
+    
       this.createProduct(data);
-    }
+    
   }
   },
   created() {

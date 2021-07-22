@@ -1,8 +1,5 @@
 <template>
   <div class="product_list">
-
-
-
 <table class="table">
   <thead class="thead-dark">
     <tr>
@@ -15,10 +12,8 @@
   </thead>
   <tbody>
   <Product v-for="product in products" :key="product.id" :product= "product" @onDelete="onDelete"/>
-    
   </tbody>
 </table>
-
   </div>
 </template>
 
