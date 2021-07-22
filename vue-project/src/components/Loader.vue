@@ -1,12 +1,13 @@
 
 <template>
-<div class="Loader">
-    <div class="ui active inverted dimmer">
-        <div class="ui loader">
 
-        </div>
-    </div>
+    <div class="ui segment">
+  <div class="ui active inverted dimmer">
+    <div class="ui text loader"></div>
+  </div>
 </div>
+
+
 </template>
 
 <script>

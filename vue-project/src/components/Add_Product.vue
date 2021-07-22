@@ -2,7 +2,7 @@
   <div class="add_product" >
     <form method="" action="" enctype="multipart/form-data">
     <div class="form-group">
-      <label for="name">Name:</label>
+      <label for="name">Product Name:</label>
       <input type="text" class="form-control" id="name" placeholder="Enter Name" name="name" @change = "handleChange" :value="form.name">
     </div>
      <div class="form-group">
@@ -10,7 +10,7 @@
   <textarea class="form-control" rows="5" id="details" name="details" @change = "handleChange" :value="form.details"></textarea>
 </div> 
     <div class="form-group">
-      <label for="product_file">Email:</label>
+      <label for="product_file">Product Picture:</label>
       <input type="file" class="form-control" id="product_file" name="product_file" @change = "handleChange" :value="form.product_file">
     </div>
     <button class="btn btn-default" @click="onFormSubmit">Add</button>

@@ -31,7 +31,7 @@
   <Add_Product :form = "form" @onFormSubmit="onFormSubmit"/>
   <br>
   <div>
-    <Loader v-if="Loader"/>
+    
     <Product_List :products= "products" @onDelete="onDelete"/>
   </div>
   </div>
@@ -56,7 +56,7 @@ import Product_List from "./components/Product_List";
 
 import Home from "./components/Home";
 import Login from './components/Login';
-import Loader from './components/Loader';
+
 
 
 export default {
@@ -66,13 +66,11 @@ export default {
     Product_List,
     Home,
     Login,
-    Loader
   },
   data(){
   return {
       isLoggedIn : false,
       homePageErase : true,
-      Loader : false,
   
   url: "http://127.0.0.1:8000/api/Products",
   products: [],
@@ -90,7 +88,13 @@ export default {
           if(response.data.accessToken){
             this.isLoggedIn = true;
             this.homePageErase = false;
+            alert("Welcome, close the login bar");
       localStorage.setItem('accessToken', response.data.accessToken);
+          }
+          else{
+            this.isLoggedIn = false
+            this.homePageErase = true
+            alert("Wrong email or password");
           }
         }).catch(e => {
     alert(e);
@@ -108,11 +112,23 @@ export default {
   },
   
   getProducts(){
-    
   axios.get(this.url).then(data => {
   this.products = data.data;
-  
   });
+  
+  },
+  createProduct(data){
+  
+    axios.post('http://127.0.0.1:8000/api/Store_Product', data, {
+      headers: {
+      Authorization : 'Bearer ' + localStorage.getItem('accessToken')
+    }
+    }).then(() => {
+      this.getProducts();
+    }).catch(e => {
+    alert(e);
+    });
+    this.getProducts();
   },
   deleteProduct(id) {
     axios.delete("http://127.0.0.1:8000/api/Delete_Product/" + id, {
@@ -124,19 +140,6 @@ export default {
     }).catch(e => {
     alert(e);
     });
-  },
-  createProduct(data){
-    axios.post('http://127.0.0.1:8000/api/Store_Product', data, {
-      headers: {
-      Authorization : 'Bearer ' + localStorage.getItem('accessToken')
-    }
-    }).then(() => {
-      this.Loader = true;
-      this.getProducts();
-    }).catch(e => {
-    alert(e);
-    });
-    
   },
   onDelete(id) {
     alert("Are you sure?");
